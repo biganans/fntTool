@@ -167,11 +167,26 @@ def main():
             convert_list=dict()
             fnt_name = os.path.basename(srcpath)
             # 存对应的ascii码
-            for filename in glob.glob(srcpath+os.sep+"*.png"):
-                basename = os.path.basename(filename)
+            list = os.listdir(srcpath) #列出文件夹下所有的目录与文件
+            for i in range(0,len(list)):
+            # for filename in glob.glob(srcpath+os.sep+"*.png"):
+                basename = list[i]
+                # 判断是否是png
+                isPng = basename[-4:]
+                if isPng != ".png":
+                    continue
+                filename = srcpath+os.sep+basename
+                # basename = os.path.basename(filename)
                 font=basename[:basename.rfind(".")]
                 # utf-8 下需要调用UTF-8编码
                 # ascii_code = ascii_code.decode('UTF-8')
+                # 手动处理不能命名的文件，囧。
+                if font == "gang":
+                    font = "/"
+                elif font == "mao":
+                    font = ":"
+                elif font == "kong":
+                    font = " "
                 try:
                     ascii_code = ord(font)
                 except TypeError as e:
