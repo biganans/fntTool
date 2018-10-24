@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # 到了 生成美术字的图片集fnt
+# Form bignananas
 import os
 #import PIL
 from PIL import Image
@@ -7,11 +8,14 @@ import sys, os, glob, math,codecs
 
 colCount = 1 #列数
 rowCount = 1 #行数
-max_height=0
-max_width=0
+max_height = 0
+max_width = 0
 
 #默认文本fnt字体
 face = "Arial"
+
+#无法命名或者冲突的字体转换(特别是windows大小写居然不敏感f**k)
+fnt_change_words = dict([("gang","/"),("mao",":"),("space"," "),("fu","-"),("aa","A"),("bb","B"),("cc","C"),("dd","D"),("ee","E"),("ff","F"),("gg","G"),("hh","H"),("ii","I"),("jj","J"),("kk","K"),("ll","L"),("mm","M"),("nn","N"),("oo","O"),("pp","P"),("qq","Q"),("rr","R"),("ss","S"),("tt","T"),("uu","U"),("vv","V"),("ww","W"),("xx","X"),("yy","Y"),("zz","Z")])
 
 def create_fnt_file(fnt_name, fnt_define):
     global face
@@ -148,6 +152,7 @@ def check_and_make(fnt_name,convert_list,output_path_name):
 
 
 def main():
+    global fnt_change_words
     # 遍历当前文件夹，直接使用目录作为fnt的名字
     #输出目录
     output_path_name="output"
@@ -181,12 +186,9 @@ def main():
                 # utf-8 下需要调用UTF-8编码
                 # ascii_code = ascii_code.decode('UTF-8')
                 # 手动处理不能命名的文件，囧。
-                if font == "gang":
-                    font = "/"
-                elif font == "mao":
-                    font = ":"
-                elif font == "kong":
-                    font = " "
+                if str(font) in fnt_change_words :
+                    print("font",font,fnt_change_words[str(font)])
+                    font = fnt_change_words[str(font)]
                 try:
                     ascii_code = ord(font)
                 except TypeError as e:
